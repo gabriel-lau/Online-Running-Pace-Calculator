@@ -95,19 +95,26 @@ class PaceCalculator {
     convertToKmh(paceType, paceValue, minutes = 0, seconds = 0) {
         switch (paceType) {
             case 'kmh':
-                return paceValue;
-
+                {
+                    return paceValue;
+                }
             case 'mph':
-                return paceValue * 1.60934; // mph to km/h
+                {
+                    return paceValue * 1.60934; // mph to km/h
+                }
 
             case 'min-km':
-                const totalMinutesPerKm = minutes + (seconds / 60);
-                return 60 / totalMinutesPerKm; // Convert min/km to km/h
+                {
+                    const totalMinutesPerKm = minutes + (seconds / 60);
+                    return 60 / totalMinutesPerKm; // Convert min/km to km/h
+                }
 
             case 'min-mile':
-                const totalMinutesPerMile = minutes + (seconds / 60);
-                const kmhFromMile = 60 / totalMinutesPerMile; // km/h equivalent
-                return kmhFromMile * 1.60934; // Convert from mile-based to km-based
+                {
+                    const totalMinutesPerMile = minutes + (seconds / 60);
+                    const kmhFromMile = 60 / totalMinutesPerMile; // km/h equivalent
+                    return kmhFromMile * 1.60934; // Convert from mile-based to km-based
+                }
 
             default:
                 return 0;
