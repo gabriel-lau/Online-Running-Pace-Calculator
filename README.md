@@ -1,4 +1,5 @@
-# Running Pace Calculator 🏃‍♂️
+# Online Running Pace Calculator 🏃‍♂️
+Visit the live application: [Online Running Pace Calculator](https://gabriel-lau.github.io/Online-Running-Pace-Calculator/)
 
 A modern, responsive web application for calculating running race times based on your training pace. Built with vanilla JavaScript, HTML, and CSS, with automated deployment using GitHub Actions.
 
@@ -28,9 +29,6 @@ A modern, responsive web application for calculating running race times based on
   - Automated deployment to GitHub Pages
   - Cross-platform testing
 
-## Live Demo
-
-Visit the live application: [Running Pace Calculator](https://yourusername.github.io/running-pace-calculator/)
 
 ## Getting Started
 
