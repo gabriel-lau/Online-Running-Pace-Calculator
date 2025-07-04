@@ -61,14 +61,13 @@ const createMockCalculator = () => {
                 default:
                     return 0;
             }
-        }
-
-        calculateTimeFromSpeed(speedKmh, distanceKm) {
+        } calculateTimeFromSpeed(speedKmh, distanceKm) {
             const timeInHours = distanceKm / speedKmh;
-            const totalMinutes = timeInHours * 60;
+            // Round to avoid floating-point precision issues
+            const totalMinutes = Math.round(timeInHours * 60 * 100) / 100;
             const hours = Math.floor(totalMinutes / 60);
             const minutes = Math.floor(totalMinutes % 60);
-            const seconds = Math.floor((totalMinutes % 1) * 60);
+            const seconds = Math.round((totalMinutes % 1) * 60);
 
             if (hours > 0) {
                 return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -165,6 +164,24 @@ describe('Running Pace Calculator', () => {
             expect(calculator.calculateTimeFromSpeed(speed, 10)).toBe('50:00');
             expect(calculator.calculateTimeFromSpeed(speed, 21.1)).toBe('1:45:30');
             expect(calculator.calculateTimeFromSpeed(speed, 42.2)).toBe('3:31:00');
+        });
+    });
+
+    describe('Floating-Point Precision', () => {
+        test('handles floating-point precision issues correctly', () => {
+            // Test the specific case: 2.4km at 12 km/h should be exactly 12:00
+            const result = calculator.calculateTimeFromSpeed(12, 2.4);
+            expect(result).toBe('12:00');
+        });
+
+        test('handles other precision edge cases', () => {
+            // Test case where division results in repeating decimals
+            const result1 = calculator.calculateTimeFromSpeed(10, 1 / 3);
+            expect(result1).toBe('2:00');
+
+            // Test case with 5km at 15 km/h (should be exactly 20:00)
+            const result2 = calculator.calculateTimeFromSpeed(15, 5);
+            expect(result2).toBe('20:00');
         });
     });
 });

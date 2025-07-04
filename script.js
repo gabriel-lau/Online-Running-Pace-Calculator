@@ -116,10 +116,11 @@ class PaceCalculator {
 
     calculateTimeFromSpeed(speedKmh, distanceKm) {
         const timeInHours = distanceKm / speedKmh;
-        const totalMinutes = timeInHours * 60;
+        // Round to avoid floating-point precision issues
+        const totalMinutes = Math.round(timeInHours * 60 * 100) / 100;
         const hours = Math.floor(totalMinutes / 60);
         const minutes = Math.floor(totalMinutes % 60);
-        const seconds = Math.floor((totalMinutes % 1) * 60);
+        const seconds = Math.round((totalMinutes % 1) * 60);
 
         if (hours > 0) {
             return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
@@ -207,13 +208,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Add some utility functions for testing
 window.PaceCalculatorUtils = {
+    // Fix floating-point precision issues
+    roundToPrecision: (num, precision = 10) => {
+        return Math.round(num * Math.pow(10, precision)) / Math.pow(10, precision);
+    },
+
     convertMilesToKm: (miles) => miles * 1.60934,
     convertKmToMiles: (km) => km / 1.60934,
     convertMinutesToSeconds: (minutes) => minutes * 60,
     formatTime: (totalMinutes) => {
-        const hours = Math.floor(totalMinutes / 60);
-        const minutes = Math.floor(totalMinutes % 60);
-        const seconds = Math.floor((totalMinutes % 1) * 60);
+        // Round to avoid floating-point precision issues
+        const roundedMinutes = Math.round(totalMinutes * 100) / 100;
+        const hours = Math.floor(roundedMinutes / 60);
+        const minutes = Math.floor(roundedMinutes % 60);
+        const seconds = Math.round((roundedMinutes % 1) * 60);
 
         if (hours > 0) {
             return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
