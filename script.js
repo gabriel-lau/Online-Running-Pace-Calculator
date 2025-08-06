@@ -68,6 +68,9 @@ class PaceCalculator {
     }
     console.log(`Updating pace inputs for type: ${this.selectedPaceType}`);
 
+    // Clear other inputs
+    // Show converted values based on selected pace type (Need to create a function to handle this)
+
     // if (paceType === 'min-km' || paceType === 'min-mile') {
     //   this.paceValueInput.style.display = 'none';
     //   this.paceUnitSpan.style.display = 'none';
