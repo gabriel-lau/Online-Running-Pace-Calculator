@@ -1,91 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Running Pace Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Running Pace Calculator</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🏃‍♂️ Running Pace Calculator</h1>
+        <p>Calculate your race times based on your training pace</p>
+      </header>
 
-    <body>
-        <div class="container">
-            <header>
-                <h1>🏃‍♂️ Running Pace Calculator</h1>
-                <p>Calculate your race times based on your training pace</p>
-            </header>
+      <main>
+        <div class="calculator-section">
+          <h2>Enter Your Pace</h2>
+          <div class="input-group">
+            <label for="pace-type">Pace Type:</label>
+            <select id="pace-type">
+              <option value="kmh">Kilometres Per Hour (km/h)</option>
+              <option value="mph">Miles Per Hour (mph)</option>
+              <option value="min-km">Minutes Per Kilometre (min/km)</option>
+              <option value="min-mile">Minutes Per Mile (min/mile)</option>
+            </select>
+          </div>
 
-            <main>
-                <div class="calculator-section">
-                    <h2>Enter Your Pace</h2>
-                    <div class="input-group">
-                        <label for="pace-type">Pace Type:</label>
-                        <select id="pace-type">
-                            <option value="kmh">Kilometres Per Hour (km/h)</option>
-                            <option value="mph">Miles Per Hour (mph)</option>
-                            <option value="min-km">Minutes Per Kilometre (min/km)</option>
-                            <option value="min-mile">Minutes Per Mile (min/mile)</option>
-                        </select>
-                    </div>
+          <div class="input-group">
+            <label for="pace-value">Pace Value:</label>
+            <input type="number" id="pace-value" step="0.1" placeholder="Enter your pace" />
+            <span id="pace-unit">km/h</span>
+          </div>
 
-                    <div class="input-group">
-                        <label for="pace-value">Pace Value:</label>
-                        <input type="number" id="pace-value" step="0.1" placeholder="Enter your pace" />
-                        <span id="pace-unit">km/h</span>
-                    </div>
+          <div class="input-group time-inputs" id="time-inputs" style="display: none">
+            <div class="time-input">
+              <label for="minutes">Minutes:</label>
+              <input type="number" id="minutes" min="0" max="59" placeholder="0" />
+            </div>
+            <div class="time-input">
+              <label for="seconds">Seconds:</label>
+              <input type="number" id="seconds" min="0" max="59" placeholder="0" />
+            </div>
+          </div>
 
-                    <div class="input-group time-inputs" id="time-inputs" style="display: none;">
-                        <div class="time-input">
-                            <label for="minutes">Minutes:</label>
-                            <input type="number" id="minutes" min="0" max="59" placeholder="0" />
-                        </div>
-                        <div class="time-input">
-                            <label for="seconds">Seconds:</label>
-                            <input type="number" id="seconds" min="0" max="59" placeholder="0" />
-                        </div>
-                    </div>
-
-                    <button id="calculate-btn">Calculate Race Times</button>
-                </div>
-
-                <div class="results-section" id="results-section" style="display: none;">
-                    <h2>Your Race Times</h2>
-                    <div class="results-grid">
-                        <div class="result-card">
-                            <h3>2.4km</h3>
-                            <p class="time" id="time-2-4km">--:--</p>
-                            <p class="distance-note">Common fitness test distance</p>
-                        </div>
-                        <div class="result-card">
-                            <h3>5km</h3>
-                            <p class="time" id="time-5km">--:--</p>
-                            <p class="distance-note">Parkrun distance</p>
-                        </div>
-                        <div class="result-card">
-                            <h3>10km</h3>
-                            <p class="time" id="time-10km">--:--</p>
-                            <p class="distance-note">Popular race distance</p>
-                        </div>
-                        <div class="result-card">
-                            <h3>Half Marathon</h3>
-                            <p class="time" id="time-half">--:--</p>
-                            <p class="distance-note">21.1km</p>
-                        </div>
-                        <div class="result-card">
-                            <h3>Full Marathon</h3>
-                            <p class="time" id="time-full">--:--</p>
-                            <p class="distance-note">42.2km</p>
-                        </div>
-                    </div>
-                </div>
-            </main>
-
-            <footer>
-                <p>&copy; 2025 Running Pace Calculator | Built with ❤️ for runners</p>
-            </footer>
+          <button id="calculate-btn">Calculate Race Times</button>
         </div>
 
-        <script src="script.js"></script>
-    </body>
+        <div class="results-section" id="results-section" style="display: none">
+          <h2>Your Race Times</h2>
+          <div class="results-grid">
+            <div class="result-card">
+              <h3>2.4km</h3>
+              <p class="time" id="time-2-4km">--:--</p>
+              <p class="distance-note">Common fitness test distance</p>
+            </div>
+            <div class="result-card">
+              <h3>5km</h3>
+              <p class="time" id="time-5km">--:--</p>
+              <p class="distance-note">Parkrun distance</p>
+            </div>
+            <div class="result-card">
+              <h3>10km</h3>
+              <p class="time" id="time-10km">--:--</p>
+              <p class="distance-note">Popular race distance</p>
+            </div>
+            <div class="result-card">
+              <h3>Half Marathon</h3>
+              <p class="time" id="time-half">--:--</p>
+              <p class="distance-note">21.1km</p>
+            </div>
+            <div class="result-card">
+              <h3>Full Marathon</h3>
+              <p class="time" id="time-full">--:--</p>
+              <p class="distance-note">42.2km</p>
+            </div>
+          </div>
+        </div>
+      </main>
 
+      <footer>
+        <p>&copy; 2025 Running Pace Calculator | Built with ❤️ for runners</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
 </html>
