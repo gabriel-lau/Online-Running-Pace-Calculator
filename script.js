@@ -1,11 +1,15 @@
 class PaceCalculator {
   constructor() {
-    this.paceTypeSelect = document.getElementById('pace-type');
-    this.paceValueInput = document.getElementById('pace-value');
-    this.paceUnitSpan = document.getElementById('pace-unit');
-    this.timeInputsDiv = document.getElementById('time-inputs');
-    this.minutesInput = document.getElementById('minutes');
-    this.secondsInput = document.getElementById('seconds');
+    // this.paceTypeSelect = document.getElementById('pace-type');
+    this.selectedPaceType = 'kmh'; // Default pace type
+    this.paceValueInput = document.getElementById('pace-value-kmh');
+
+    this.paceValueInputKmh = document.getElementById('pace-value-kmh');
+    this.paceValueInputMph = document.getElementById('pace-value-mph');
+    this.minutesInputMinkm = document.getElementById('minutes-min-km');
+    this.secondsInputMinkm = document.getElementById('seconds-min-km');
+    this.minutesInputMinmile = document.getElementById('minutes-min-mile');
+    this.secondsInputMinmile = document.getElementById('seconds-min-mile');
     this.calculateBtn = document.getElementById('calculate-btn');
     this.resultsSection = document.getElementById('results-section');
 
@@ -21,55 +25,78 @@ class PaceCalculator {
   }
 
   initEventListeners() {
-    this.paceTypeSelect.addEventListener('change', () => this.updatePaceInputs());
+    // this.paceTypeSelect.addEventListener('change', () => this.updatePaceInputs());
+    this.paceValueInputKmh.addEventListener('input', () => this.updatePaceInputs('kmh'));
+    this.paceValueInputMph.addEventListener('input', () => this.updatePaceInputs('mph'));
+
+    this.minutesInputMinkm.addEventListener('input', () => this.updatePaceInputs('min-km'));
+    this.secondsInputMinkm.addEventListener('input', () => this.updatePaceInputs('min-km'));
+    this.minutesInputMinmile.addEventListener('input', () => this.updatePaceInputs('min-mile'));
+    this.secondsInputMinmile.addEventListener('input', () => this.updatePaceInputs('min-mile'));
     this.calculateBtn.addEventListener('click', () => this.calculateRaceTimes());
 
     // Enter key support
-    this.paceValueInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') this.calculateRaceTimes();
-    });
+    // this.paceValueInput.addEventListener('keypress', e => {
+    //   if (e.key === 'Enter') this.calculateRaceTimes();
+    // });
 
-    this.minutesInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') this.calculateRaceTimes();
-    });
+    // this.minutesInput.addEventListener('keypress', e => {
+    //   if (e.key === 'Enter') this.calculateRaceTimes();
+    // });
 
-    this.secondsInput.addEventListener('keypress', e => {
-      if (e.key === 'Enter') this.calculateRaceTimes();
-    });
+    // this.secondsInput.addEventListener('keypress', e => {
+    //   if (e.key === 'Enter') this.calculateRaceTimes();
+    // });
   }
 
-  updatePaceInputs() {
-    const paceType = this.paceTypeSelect.value;
+  updatePaceInputs(paceType) {
+    this.selectedPaceType = paceType || this.selectedPaceType;
 
-    if (paceType === 'min-km' || paceType === 'min-mile') {
-      this.paceValueInput.style.display = 'none';
-      this.paceUnitSpan.style.display = 'none';
-      this.timeInputsDiv.style.display = 'grid';
-    } else {
-      this.paceValueInput.style.display = 'block';
-      this.paceUnitSpan.style.display = 'inline-block';
-      this.timeInputsDiv.style.display = 'none';
-
-      // Update unit text
-      switch (paceType) {
-        case 'kmh':
-          this.paceUnitSpan.textContent = 'km/h';
-          break;
-        case 'mph':
-          this.paceUnitSpan.textContent = 'mph';
-          break;
-      }
+    if (this.selectedPaceType === 'kmh') {
+      this.paceValueInput = this.paceValueInputKmh;
     }
+    else if (this.selectedPaceType === 'mph') {
+      this.paceValueInput = this.paceValueInputMph;
+    }
+    else if (this.selectedPaceType === 'min-km') {
+      this.minutesInput = this.minutesInputMinkm;
+      this.secondsInput = this.secondsInputMinkm;
+    }
+    else if (this.selectedPaceType === 'min-mile') {
+      this.minutesInput = this.minutesInputMinmile;
+      this.secondsInput = this.secondsInputMinmile;
+    }
+    console.log(`Updating pace inputs for type: ${this.selectedPaceType}`);
+
+    // if (paceType === 'min-km' || paceType === 'min-mile') {
+    //   this.paceValueInput.style.display = 'none';
+    //   this.paceUnitSpan.style.display = 'none';
+    //   this.timeInputsDiv.style.display = 'grid';
+    // } else {
+    //   this.paceValueInput.style.display = 'block';
+    //   this.paceUnitSpan.style.display = 'inline-block';
+    //   this.timeInputsDiv.style.display = 'none';
+
+    //   // Update unit text
+    //   switch (paceType) {
+    //     case 'kmh':
+    //       this.paceUnitSpan.textContent = 'km/h';
+    //       break;
+    //     case 'mph':
+    //       this.paceUnitSpan.textContent = 'mph';
+    //       break;
+    //   }
+    // }
   }
 
   validateInputs() {
-    const paceType = this.paceTypeSelect.value;
+    const paceType = this.selectedPaceType;
     let isValid = true;
 
     // Remove previous error styles
-    this.paceValueInput.classList.remove('input-error');
-    this.minutesInput.classList.remove('input-error');
-    this.secondsInput.classList.remove('input-error');
+    // this.paceValueInput.classList.remove('input-error');
+    // this.minutesInput.classList.remove('input-error');
+    // this.secondsInput.classList.remove('input-error');
 
     if (paceType === 'min-km' || paceType === 'min-mile') {
       const minutes = parseInt(this.minutesInput.value) || 0;
@@ -138,10 +165,10 @@ class PaceCalculator {
       return;
     }
 
-    const paceType = this.paceTypeSelect.value;
+    const paceType = this.selectedPaceType;
     const paceValue = parseFloat(this.paceValueInput.value) || 0;
-    const minutes = parseInt(this.minutesInput.value) || 0;
-    const seconds = parseInt(this.secondsInput.value) || 0;
+    const minutes = this.minutesInput ? parseInt(this.minutesInput.value) : 0;
+    const seconds = this.secondsInput ? parseInt(this.secondsInput.value) : 0;
 
     try {
       const speedKmh = this.convertToKmh(paceType, paceValue, minutes, seconds);
