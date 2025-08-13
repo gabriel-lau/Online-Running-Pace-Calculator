@@ -1,8 +1,5 @@
 class PaceCalculator {
   constructor() {
-    // this.paceTypeSelect = document.getElementById('pace-type');
-    this.selectedPaceType = 'kmh'; // Default pace type
-
     // Input for Kilometres per hour
     this.paceValueInputKmh = document.getElementById('pace-value-kmh');
 
@@ -40,8 +37,6 @@ class PaceCalculator {
     this.secondsInputMinkm.addEventListener('input', () => this.updatePaceInputs('min-km'));
     this.minutesInputMinmile.addEventListener('input', () => this.updatePaceInputs('min-mile'));
     this.secondsInputMinmile.addEventListener('input', () => this.updatePaceInputs('min-mile'));
-    this.calculateBtn.addEventListener('click', () => this.calculateRaceTimes());
-
     // Enter key support
     this.paceValueInputKmh.addEventListener('keypress', e => {
       if (e.key === 'Enter') this.calculateRaceTimes();
@@ -66,6 +61,7 @@ class PaceCalculator {
     this.secondsInputMinmile.addEventListener('keypress', e => {
       if (e.key === 'Enter') this.calculateRaceTimes();
     });
+    this.calculateBtn.addEventListener('click', () => this.calculateRaceTimes());
   }
 
   updatePaceInputs(paceType) {
@@ -101,37 +97,18 @@ class PaceCalculator {
       if (type === 'kmh') {
         this.paceValueInputKmh.value = paceInKmh;
       } else if (type === 'mph') {
-        this.paceValueInputMph.value = this.calculateKmhToMph(paceInKmh);
+        this.paceValueInputMph.value = this.convertKmhToMph(paceInKmh);
       } else if (type === 'min-km') {
-        const minKm = this.calculateKmhToMinKm(paceInKmh);
+        const minKm = this.convertKmhToMinKm(paceInKmh);
         this.minutesInputMinkm.value = minKm.minutes;
         this.secondsInputMinkm.value = minKm.seconds;
       } else if (type === 'min-mile') {
-        const minMile = this.calculateKmhToMinMile(paceInKmh);
+        const minMile = this.convertKmhToMinMile(paceInKmh);
         this.minutesInputMinmile.value = minMile.minutes;
         this.secondsInputMinmile.value = minMile.seconds;
       }
     }
 
-  }
-
-  calculateKmhToMph(kmh) {
-    return kmh * 0.621371;
-  }
-
-  calculateKmhToMinKm(kmh) {
-    const paceInMinutes = 60 / kmh;
-    const minutes = Math.floor(paceInMinutes);
-    const seconds = Math.round((paceInMinutes % 1) * 60);
-    return { minutes, seconds };
-  }
-
-  calculateKmhToMinMile(kmh) {
-    const mph = this.calculateKmhToMph(kmh);
-    const paceInMinutes = 60 / mph;
-    const minutes = Math.floor(paceInMinutes);
-    const seconds = Math.round((paceInMinutes % 1) * 60);
-    return { minutes, seconds };
   }
 
   removeErrorStyles() {
@@ -144,8 +121,8 @@ class PaceCalculator {
   }
 
   validateInputs() {
-    const paceType = this.selectedPaceType;
     let isValid = true;
+    const paceType = this.selectedPaceType;
 
     // Remove previous error styles
     this.removeErrorStyles();
@@ -160,13 +137,15 @@ class PaceCalculator {
         this.secondsInput.classList.add('input-error');
         isValid = false;
       }
-    } else { // If pace inputs are used
+    } else if (paceType === 'kmh' || paceType === 'mph') { // If pace inputs are used
       const paceValue = parseFloat(this.paceValueInput.value);
 
       if (!paceValue || paceValue <= 0) {
         this.paceValueInput.classList.add('input-error');
         isValid = false;
       }
+    } else {
+      isValid = false;
     }
 
     return isValid;
@@ -195,6 +174,25 @@ class PaceCalculator {
       default:
         return 0;
     }
+  }
+
+  convertKmhToMph(kmh) {
+    return kmh * 0.621371;
+  }
+
+  convertKmhToMinKm(kmh) {
+    const paceInMinutes = 60 / kmh;
+    const minutes = Math.floor(paceInMinutes);
+    const seconds = Math.round((paceInMinutes % 1) * 60);
+    return { minutes, seconds };
+  }
+
+  convertKmhToMinMile(kmh) {
+    const mph = this.convertKmhToMph(kmh);
+    const paceInMinutes = 60 / mph;
+    const minutes = Math.floor(paceInMinutes);
+    const seconds = Math.round((paceInMinutes % 1) * 60);
+    return { minutes, seconds };
   }
 
   calculateTimeFromSpeed(speedKmh, distanceKm) {
