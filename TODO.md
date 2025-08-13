@@ -1,3 +1,0 @@
-- [ ] Add logic to automatically convert pace based on selected input (min/km, min/mile, mph)
-- [ ] Implement error handling for invalid inputs
-- [ ] Proper handling of javascript variable switching because of the removal of the dropdown
