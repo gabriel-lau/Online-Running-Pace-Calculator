@@ -1,95 +1,129 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Running Pace Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Running Pace Calculator</title>
-		<link rel="stylesheet" href="style.css" />
-	</head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🏃‍♂️ Running Pace Calculator</h1>
+        <p>Calculate your race times based on your training pace</p>
+      </header>
 
-	<body>
-		<div class="container">
-			<header>
-				<h1>🏃‍♂️ Running Pace Calculator</h1>
-				<p>Calculate your race times based on your training pace</p>
-			</header>
+      <main>
+        <div class="calculator-section">
+          <h2>Enter Your Pace</h2>
 
-			<main>
-				<div class="calculator-section">
-					<h2>Enter Your Pace</h2>
+          <div class="input-group">
+            <label>Kilometres Per Hour (km/h)</label>
+            <input
+              type="number"
+              id="pace-value-kmh"
+              step="0.1"
+              placeholder="Pace"
+              autocomplete="off"
+            />
+          </div>
 
-					<div class="input-group">
-						<label>Kilometres Per Hour (km/h)</label>
-						<input type="number" id="pace-value-kmh" step="0.1" placeholder="Pace" autocomplete="off" />
-					</div>
+          <div class="input-group">
+            <label>Miles Per Hour (mph)</label>
+            <input
+              type="number"
+              id="pace-value-mph"
+              step="0.1"
+              placeholder="Pace"
+              autocomplete="off"
+            />
+          </div>
 
-					<div class="input-group">
-						<label>Miles Per Hour (mph)</label>
-						<input type="number" id="pace-value-mph" step="0.1" placeholder="Pace" autocomplete="off" />
-					</div>
+          <div class="input-group">
+            <label>Minutes Per Kilometre (min/km)</label>
+            <div class="time-inputs" id="time-inputs">
+              <input
+                type="number"
+                id="minutes-min-km"
+                min="0"
+                max="59"
+                placeholder="Minutes"
+                autocomplete="off"
+              />
+              <input
+                type="number"
+                id="seconds-min-km"
+                min="0"
+                max="59"
+                placeholder="Seconds"
+                autocomplete="off"
+              />
+            </div>
+          </div>
 
-					<div class="input-group">
-						<label>Minutes Per Kilometre (min/km)</label>
-						<div class="time-inputs" id="time-inputs">
-							<input type="number" id="minutes-min-km" min="0" max="59" placeholder="Minutes"
-								autocomplete="off" />
-							<input type="number" id="seconds-min-km" min="0" max="59" placeholder="Seconds"
-								autocomplete="off" />
-						</div>
-					</div>
+          <div class="input-group">
+            <label>Minutes Per Mile (min/mile)</label>
+            <div class="time-inputs" id="time-inputs">
+              <input
+                type="number"
+                id="minutes-min-mile"
+                min="0"
+                max="59"
+                placeholder="Minutes"
+                autocomplete="off"
+              />
+              <input
+                type="number"
+                id="seconds-min-mile"
+                min="0"
+                max="59"
+                placeholder="Seconds"
+                autocomplete="off"
+              />
+            </div>
+          </div>
 
-					<div class="input-group">
-						<label>Minutes Per Mile (min/mile)</label>
-						<div class="time-inputs" id="time-inputs">
-							<input type="number" id="minutes-min-mile" min="0" max="59" placeholder="Minutes"
-								autocomplete="off" />
-							<input type="number" id="seconds-min-mile" min="0" max="59" placeholder="Seconds"
-								autocomplete="off" />
-						</div>
-					</div>
+          <button id="calculate-btn">Calculate Race Times</button>
+        </div>
 
-					<button id="calculate-btn">Calculate Race Times</button>
-				</div>
+        <div class="results-section" id="results-section" style="display: none">
+          <h2>Your Race Times</h2>
+          <div class="results-grid">
+            <div class="result-card">
+              <h3>2.4km</h3>
+              <p class="time" id="time-2-4km">--:--</p>
+              <p class="distance-note">Common fitness test distance</p>
+            </div>
+            <div class="result-card">
+              <h3>5km</h3>
+              <p class="time" id="time-5km">--:--</p>
+              <p class="distance-note">Parkrun distance</p>
+            </div>
+            <div class="result-card">
+              <h3>10km</h3>
+              <p class="time" id="time-10km">--:--</p>
+              <p class="distance-note">Popular race distance</p>
+            </div>
+            <div class="result-card">
+              <h3>Half Marathon</h3>
+              <p class="time" id="time-half">--:--</p>
+              <p class="distance-note">21.1km</p>
+            </div>
+            <div class="result-card">
+              <h3>Full Marathon</h3>
+              <p class="time" id="time-full">--:--</p>
+              <p class="distance-note">42.2km</p>
+            </div>
+          </div>
+        </div>
+      </main>
 
-				<div class="results-section" id="results-section" style="display: none">
-					<h2>Your Race Times</h2>
-					<div class="results-grid">
-						<div class="result-card">
-							<h3>2.4km</h3>
-							<p class="time" id="time-2-4km">--:--</p>
-							<p class="distance-note">Common fitness test distance</p>
-						</div>
-						<div class="result-card">
-							<h3>5km</h3>
-							<p class="time" id="time-5km">--:--</p>
-							<p class="distance-note">Parkrun distance</p>
-						</div>
-						<div class="result-card">
-							<h3>10km</h3>
-							<p class="time" id="time-10km">--:--</p>
-							<p class="distance-note">Popular race distance</p>
-						</div>
-						<div class="result-card">
-							<h3>Half Marathon</h3>
-							<p class="time" id="time-half">--:--</p>
-							<p class="distance-note">21.1km</p>
-						</div>
-						<div class="result-card">
-							<h3>Full Marathon</h3>
-							<p class="time" id="time-full">--:--</p>
-							<p class="distance-note">42.2km</p>
-						</div>
-					</div>
-				</div>
-			</main>
+      <footer>
+        <p>&copy; 2025 Running Pace Calculator | Built with ❤️ for runners</p>
+      </footer>
+    </div>
 
-			<footer>
-				<p>&copy; 2025 Running Pace Calculator | Built with ❤️ for runners</p>
-			</footer>
-		</div>
-
-		<script src="script.js"></script>
-	</body>
-
+    <script src="script.js"></script>
+  </body>
 </html>

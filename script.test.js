@@ -8,7 +8,7 @@ const {
   InputElementManager,
   PaceInputElement,
   TimeInputElement,
-  PaceConverter
+  PaceConverter,
 } = require('./script.js');
 
 // Mock DOM elements for testing
@@ -49,11 +49,13 @@ const setupMockDOM = () => {
   };
 
   // Use document.getElementById spy instead of replacing the whole document
-  jest.spyOn(document, 'getElementById').mockImplementation((id) => {
+  jest.spyOn(document, 'getElementById').mockImplementation(id => {
     return mockElements[id] || null;
   });
 
-  jest.spyOn(document, 'createElement').mockImplementation(() => createMockElement('created-element'));
+  jest
+    .spyOn(document, 'createElement')
+    .mockImplementation(() => createMockElement('created-element'));
 
   return mockElements;
 };
@@ -175,9 +177,18 @@ describe('PaceInputElement (Real Implementation)', () => {
   });
 
   test('sets up event listeners', () => {
-    expect(mockElements['pace-value-kmh'].addEventListener).toHaveBeenCalledWith('click', expect.any(Function));
-    expect(mockElements['pace-value-kmh'].addEventListener).toHaveBeenCalledWith('input', expect.any(Function));
-    expect(mockElements['pace-value-kmh'].addEventListener).toHaveBeenCalledWith('keypress', expect.any(Function));
+    expect(mockElements['pace-value-kmh'].addEventListener).toHaveBeenCalledWith(
+      'click',
+      expect.any(Function)
+    );
+    expect(mockElements['pace-value-kmh'].addEventListener).toHaveBeenCalledWith(
+      'input',
+      expect.any(Function)
+    );
+    expect(mockElements['pace-value-kmh'].addEventListener).toHaveBeenCalledWith(
+      'keypress',
+      expect.any(Function)
+    );
   });
 
   test('getPace returns pace value', () => {
@@ -342,8 +353,8 @@ describe('PaceCalculator (Real Implementation)', () => {
       '2.4km': '12:00',
       '5km': '25:00',
       '10km': '50:00',
-      'half': '1:45:30',
-      'full': '3:31:00'
+      half: '1:45:30',
+      full: '3:31:00',
     };
 
     paceCalculator.displayResults(results);
@@ -386,7 +397,7 @@ describe('Integration Tests', () => {
   });
 
   test('full calculation workflow with min/km input', () => {
-    // Set up min/km input  
+    // Set up min/km input
     mockElements['minutes-min-km'].value = '5';
     mockElements['seconds-min-km'].value = '0';
     paceCalculator.inputElementManager.setSelectedPaceType('min-km');

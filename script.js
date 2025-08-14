@@ -90,13 +90,23 @@ class PaceCalculator {
 class InputElementManager {
   constructor(parent) {
     this.parent = parent;
-    this.paceType = "";
+    this.paceType = '';
     this.selectedInput = null;
     this.children = [
       new PaceInputElement('kmh', document.getElementById('pace-value-kmh'), this),
       new PaceInputElement('mph', document.getElementById('pace-value-mph'), this),
-      new TimeInputElement('min-km', document.getElementById('minutes-min-km'), document.getElementById('seconds-min-km'), this),
-      new TimeInputElement('min-mile', document.getElementById('minutes-min-mile'), document.getElementById('seconds-min-mile'), this)
+      new TimeInputElement(
+        'min-km',
+        document.getElementById('minutes-min-km'),
+        document.getElementById('seconds-min-km'),
+        this
+      ),
+      new TimeInputElement(
+        'min-mile',
+        document.getElementById('minutes-min-mile'),
+        document.getElementById('seconds-min-mile'),
+        this
+      ),
     ];
   }
 
@@ -114,7 +124,6 @@ class InputElementManager {
     this.removeAllSelectedStyles();
     this.removeAllErrorStyles();
     this.selectedInput.addSelectedStyle();
-
   }
 
   removeAllSelectedStyles() {
@@ -127,7 +136,12 @@ class InputElementManager {
 
   autoConvertInputs() {
     const selectedPace = this.selectedInput.getPace();
-    const selectedPaceKmh = PaceConverter.convertToKmh(this.paceType, selectedPace.pace, selectedPace.minutes, selectedPace.seconds);
+    const selectedPaceKmh = PaceConverter.convertToKmh(
+      this.paceType,
+      selectedPace.pace,
+      selectedPace.minutes,
+      selectedPace.seconds
+    );
     this.children.forEach(child => {
       if (child !== this.selectedInput) {
         switch (child.getType()) {
@@ -138,10 +152,16 @@ class InputElementManager {
             child.setPace(PaceConverter.convertKmhToMph(selectedPaceKmh));
             break;
           case 'min-km':
-            child.setPace(PaceConverter.convertKmhToMinKm(selectedPaceKmh).minutes, PaceConverter.convertKmhToMinKm(selectedPaceKmh).seconds);
+            child.setPace(
+              PaceConverter.convertKmhToMinKm(selectedPaceKmh).minutes,
+              PaceConverter.convertKmhToMinKm(selectedPaceKmh).seconds
+            );
             break;
           case 'min-mile':
-            child.setPace(PaceConverter.convertKmhToMinMile(selectedPaceKmh).minutes, PaceConverter.convertKmhToMinMile(selectedPaceKmh).seconds);
+            child.setPace(
+              PaceConverter.convertKmhToMinMile(selectedPaceKmh).minutes,
+              PaceConverter.convertKmhToMinMile(selectedPaceKmh).seconds
+            );
             break;
         }
       }
@@ -173,7 +193,7 @@ class PaceInputElement {
       this.manager.autoConvertInputs();
     });
 
-    this.element.addEventListener('keypress', (e) => {
+    this.element.addEventListener('keypress', e => {
       if (e.key === 'Enter') {
         this.manager.triggerCalculateRaceTimes();
       }
@@ -225,7 +245,6 @@ class TimeInputElement {
     this.element2 = element2;
     this.manager = manager;
 
-
     this.element1.addEventListener('click', () => {
       this.manager.setSelectedPaceType(this.getType());
     });
@@ -240,12 +259,12 @@ class TimeInputElement {
       this.manager.autoConvertInputs();
     });
 
-    this.element1.addEventListener('keypress', (e) => {
+    this.element1.addEventListener('keypress', e => {
       if (e.key === 'Enter') {
         this.manager.triggerCalculateRaceTimes();
       }
     });
-    this.element2.addEventListener('keypress', (e) => {
+    this.element2.addEventListener('keypress', e => {
       if (e.key === 'Enter') {
         this.manager.triggerCalculateRaceTimes();
       }
@@ -290,7 +309,13 @@ class TimeInputElement {
 
   validateInput() {
     const paceValue = this.getPace();
-    if (!paceValue.minutes || paceValue.minutes <= 0 || !paceValue.seconds || paceValue.seconds < 0 || paceValue.seconds >= 60) {
+    if (
+      !paceValue.minutes ||
+      paceValue.minutes <= 0 ||
+      !paceValue.seconds ||
+      paceValue.seconds < 0 ||
+      paceValue.seconds >= 60
+    ) {
       this.addErrorStyle();
       return false;
     }
@@ -400,6 +425,6 @@ if (typeof module !== 'undefined' && module.exports) {
     InputElementManager,
     PaceInputElement,
     TimeInputElement,
-    PaceConverter
+    PaceConverter,
   };
 }
