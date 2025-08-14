@@ -310,9 +310,9 @@ class TimeInputElement {
   validateInput() {
     const paceValue = this.getPace();
     if (
-      !paceValue.minutes ||
+      isNaN(paceValue.minutes) ||
       paceValue.minutes <= 0 ||
-      !paceValue.seconds ||
+      isNaN(paceValue.seconds) ||
       paceValue.seconds < 0 ||
       paceValue.seconds >= 60
     ) {
